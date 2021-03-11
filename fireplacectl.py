@@ -15,7 +15,7 @@ TOPIC__STATE = TOPIC__ROOT + "/state"
 TOPIC__STATUS = TOPIC__ROOT + "/status"
 
 MQTT__HOST = os.getenv("MQTT_HOST", "mosquitto.data")
-MQTT__PORT = os.getenv("MQTT_PORT", 1883)
+MQTT__PORT = os.getenv("MQTT_PORT", "1883")
 MQTT__USERNAME = os.environ.get("MQTT_USERNAME")
 MQTT__PASSWORD = os.environ.get("MQTT_PASSWORD")
 
@@ -78,7 +78,7 @@ def main_loop():
     signal.signal(signal.SIGTERM, signal_handler)
 
     mqttc.username_pw_set(username=MQTT__USERNAME,password=MQTT__PASSWORD)
-    mqttc.connect(MQTT__HOST, MQTT__PORT, 60)
+    mqttc.connect(MQTT__HOST, int(MQTT__PORT), 60)
     mqttc.on_connect = mqtt_on_connect
     mqttc.message_callback_add(TOPIC__POWER, power_topic)
 
